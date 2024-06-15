@@ -5,13 +5,21 @@ function uploadAndDownloadImage() {
         const formData = new FormData();
         formData.append('file', file);
 
+        // Create an object to hold the data you will send
+        const dataToSend = {
+            fileName: file.name,
+            contentType: file.type
+        };
+
         // Adjust this URL to your actual function endpoint
         fetch('https://us-central1-vocal-park-418014.cloudfunctions.net/generate_signed_url', {
             method: 'POST',
-            body: formData,
+            headers: {
+                'Content-Type': 'application/json'  // Set Content-Type to application/json
+            },
+            body: JSON.stringify(dataToSend), // Make sure to send JSON string
         })
         .then(response => {
-            // Check if the response was successful
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
