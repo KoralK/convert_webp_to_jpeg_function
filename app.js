@@ -5,13 +5,13 @@ function uploadImage() {
         const formData = new FormData();
         formData.append('file', file);
 
-        // Fetch the upload URL from your server or a signed URL generator
-        fetch('https://your-server.com/get-signed-url', {
-            method: 'GET', // Or 'POST' if you are sending data to generate URL
+        // Replace 'your-server.com' with your server that returns the signed URL
+        fetch('https://your-server.com/get-signed-url?bucket=korals_kova', {
+            method: 'GET',
         })
         .then(response => response.json())
         .then(data => {
-            const uploadUrl = data.url; // Ensure this URL is the signed URL for uploads
+            const uploadUrl = data.url; // This URL should be a signed URL for the 'korals_kova' bucket
 
             // Upload the file to Google Cloud Storage directly
             fetch(uploadUrl, {
