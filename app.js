@@ -2,22 +2,29 @@ function uploadImage() {
     const input = document.getElementById('imageInput');
     if (input.files.length > 0) {
         const file = input.files[0];
-        const formData = new FormData();
-        formData.append('file', file);
+        const fileName = file.name;
+        const contentType = file.type;  // Make sure this matches the file type
 
-        // Replace 'your-server.com' with your server that returns the signed URL
-        fetch('https://your-server.com/get-signed-url?bucket=korals_kova', {
-            method: 'GET',
+        // Fetch the signed URL from your Google Cloud Function
+        fetch('https://us-central1-vocal-park-418014.cloudfunctions.net/generate_signed_url', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                fileName: fileName,
+                contentType: contentType
+            })
         })
         .then(response => response.json())
         .then(data => {
-            const uploadUrl = data.url; // This URL should be a signed URL for the 'korals_kova' bucket
+            const uploadUrl = data.url;
 
-            // Upload the file to Google Cloud Storage directly
+            // Upload the file to Google Cloud Storage using the signed URL
             fetch(uploadUrl, {
                 method: 'PUT',
                 headers: {
-                    'Content-Type': 'image/webp'
+                    'Content-Type': contentType
                 },
                 body: file
             })
@@ -30,7 +37,7 @@ function uploadImage() {
                 }
             })
             .catch(error => {
-                console.error('Error:', error);
+                console.error('Error uploading image:', error);
                 alert('Upload failed');
             });
         })
