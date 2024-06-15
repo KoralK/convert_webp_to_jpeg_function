@@ -1,0 +1,14 @@
+# Use .gitignore as a base
+.gitignore
+
+# Include .git directory and other Git related files
+.git
+.gitattributes
+
+# Exclude web files
+*.html
+*.js
+
+# Exclude local development-specific files
+*.py  # Exclude if you don't want to deploy Python files, which is unlikely
+README.md

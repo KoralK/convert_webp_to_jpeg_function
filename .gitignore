@@ -1,0 +1,24 @@
+# Python virtual environments and bytecode
+venv/
+*.pyc
+*.py
+__pycache__/
+
+# Dependency directories for Node.js (if used)
+node_modules/
+
+# Environment configuration files
+.env
+
+# IDEs and editors
+.idea/
+.vscode/
+*.swp
+*.txt
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
